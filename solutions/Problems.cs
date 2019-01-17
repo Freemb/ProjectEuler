@@ -22,7 +22,11 @@ namespace ProjectEuler.Solutions
 				case 2:
 					Problem2();
 					break;
+				case 3:
+					Problem3();
+					break;
 				default:
+					Console.WriteLine("This problem has not been solved yet");
 					break;
 			}
 		}
@@ -66,6 +70,26 @@ namespace ProjectEuler.Solutions
 			Console.WriteLine(Resultset.Sum());
 			Console.ReadLine();
 
+		}
+		
+		//The prime factors of 13195 are 5, 7, 13 and 29.
+		/// <summary>
+		/// What is the largest prime factor of the number 600851475143 ?
+		/// </summary>
+		private void Problem3()
+		{
+			int i = 2;
+			long number = 600851475143;
+			while (i !=number)
+			{
+				if (number % i == 0) // test for prime factors i of number
+				{
+					number = number / i; // result divide by prime factor is still a multiple of other prime factors, smaller number reduces iterations
+				}
+				i++;
+			}
+			Console.WriteLine("The result is " + number);
+			Console.ReadLine();
 		}
 
 
