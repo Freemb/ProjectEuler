@@ -32,6 +32,9 @@ namespace ProjectEuler.Solutions
 				case 4:
 					Problem4();
 					break;
+				case 5:
+					Problem5();
+					break;
 				default:
 					Console.WriteLine("This problem has not been solved yet");
 					break;
@@ -135,8 +138,40 @@ namespace ProjectEuler.Solutions
 			Console.WriteLine("The largest palindrome is {0}, the smallest is {1} ",palindromes.Max(),palindromes.Min());
 			Console.ReadLine();
 		}
+		/// <summary>
+		/// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+		/// </summary>
 
+		private void Problem5()
+		{
+			Console.WriteLine("What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20 ?");
+			long Results = 20; // minimum number that is a multiple of the largest number in the set of numbers
+			bool found = false;
 
+			while (!found)
+			{
+					for (int i = 20; i > 1; i--)
+					{
+						if (Results % i != 0) // is not a multiple of number
+						{
+							Results+=20; //increment results and break to try new number
+							break;
+						}
+						else
+						{
+							if (i == 2) //if reached this point then all numbers from 20 to 2 were factors.
+							{
+								found = true;
+								break;
+							}
+
+						}
+					}
+				
+			}
+			Console.WriteLine("The smallest multiple of all the numbers is {0}", Results);
+			Console.ReadLine();
+		}
 
 
 	}
