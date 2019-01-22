@@ -6,45 +6,12 @@ using System.Threading.Tasks;
 
 namespace ProjectEuler.Solutions
 {
-	class Problems
+	struct Problems
 	{
-		private int number;
-		/// <summary>
-		/// Constructor initiates console to select problem number to be solved
-		/// </summary>
-		public Problems()
-		{
-			Console.WriteLine("Enter the problem number you wish to solve");
-			int.TryParse(Console.ReadLine(), out number);
-			Console.Clear();
-
-			switch (number)
-			{
-				case 1:
-					Problem1();
-					break;
-				case 2:
-					Problem2();
-					break;
-				case 3:
-					Problem3();
-					break;
-				case 4:
-					Problem4();
-					break;
-				case 5:
-					Problem5();
-					break;
-				default:
-					Console.WriteLine("This problem has not been solved yet");
-					break;
-			}
-		}
-
 		/// <summary>
 		/// Find the sum of all the multiples of 3 or 5 below 1000.
 		/// </summary>
-		private void Problem1()
+		public void Problem1()
 		{
 			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below 1000.");
 			
@@ -63,7 +30,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 		/// </summary>
-		private void Problem2()
+		public void Problem2()
 		{
 			Console.WriteLine("Problem 2: By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
 		
@@ -90,7 +57,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// What is the largest prime factor of the number 600851475143 ?
 		/// </summary>
-		private void Problem3()
+		public void Problem3()
 		{
 			Console.WriteLine("Problem 3: What is the largest prime factor of the number 600851475143 ?");
 			int i = 2;
@@ -111,7 +78,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		///Find the largest palindrome made from the product of two 3-digit numbers.
 		/// </summary>
-		private void Problem4()
+		public void Problem4()
 		{
 			Console.WriteLine("Problem 4: Find the largest palindrome made from the product of two 3-digit numbers.");
 
@@ -142,10 +109,10 @@ namespace ProjectEuler.Solutions
 		/// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 		/// </summary>
 
-		private void Problem5()
+		public void Problem5()
 		{
 			Console.WriteLine("What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20 ?");
-			long Results = 20; // minimum number that is a multiple of the largest number in the set of numbers
+			long Results = 20; // inititialised to smallest number that is a multiple of the largest number in the set of numbers
 			bool found = false;
 
 			while (!found)
@@ -173,6 +140,23 @@ namespace ProjectEuler.Solutions
 			Console.ReadLine();
 		}
 
+		/// <summary>
+		/// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+		/// </summary>
+		public void Problem6()
+		{
+			int sum = 0;
+			long sumsquare = 0L;
+			for (int i = 1; i < 101; i++)
+			{
+				sumsquare += (i * i);
+				sum += i;
+				
+			}
+			long result = (sum * sum) - sumsquare;
+			Console.WriteLine("The result is {0}", result);
+			Console.ReadLine();
+		}
 
 	}
 }
