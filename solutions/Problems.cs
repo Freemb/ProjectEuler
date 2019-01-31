@@ -145,7 +145,7 @@ namespace ProjectEuler.Solutions
 		/// </summary>
 		public void Problem6()
 		{
-			Console.WriteLine("Problem 6:Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum. ")
+			Console.WriteLine("Problem 6:Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum. ");
 			int sum = 0;
 			long sumsquare = 0L;
 			for (int i = 1; i < 101; i++)
@@ -235,6 +235,35 @@ namespace ProjectEuler.Solutions
 			Console.WriteLine("The result string is {0} and the value of the product is {1}", Result, result);
 			Console.ReadLine();
 
+		}
+		
+		public void Problem9()
+		{
+			long product;
+			int sum = 1000;
+			int iterations = 0;
+			bool flag = false;
+			while (!flag)
+			{
+				for (int a = 1; a < sum; a++)
+				{
+					if (flag) { break; }
+
+					for (int b = a + 1; b < sum - a; b++, iterations++)
+					{
+						int c = sum - a - b;
+						if ((c * c) == (a *a + b * b) && (a + b + c == sum))
+						{
+							flag = true;
+							product = a * b * c;
+							Console.WriteLine("The Pythagorean triplets are {0}, {1}, {2}. The Product is {3}", a, b, c, product);
+							Console.WriteLine("Done in {0} iterations", iterations);
+							break;
+						}
+					}
+				}
+			}
+			Console.ReadKey();
 		}
 	}
 }
