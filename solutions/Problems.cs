@@ -14,7 +14,7 @@ namespace ProjectEuler.Solutions
 		public void Problem1()
 		{
 			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below 1000.");
-			
+
 			List<int> Results = new List<int>(); // list for all the multiples
 			for (int i = 0; i < 1000; i++)
 			{
@@ -23,7 +23,7 @@ namespace ProjectEuler.Solutions
 					Results.Add(i);
 				}
 			}
-			Console.WriteLine("The answer is {0}",Results.Sum());
+			Console.WriteLine("The answer is {0}", Results.Sum());
 			Console.ReadLine();
 		}
 
@@ -33,9 +33,9 @@ namespace ProjectEuler.Solutions
 		public void Problem2()
 		{
 			Console.WriteLine("Problem 2: By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
-		
+
 			List<int> Resultset = new List<int>(); // list to store even fibonacci numbers
-			int[] Fibonacci = new int[3]{1,2,0}; // array that holds 3 consecutive values of the fibonacci sequence
+			int[] Fibonacci = new int[3] { 1, 2, 0 }; // array that holds 3 consecutive values of the fibonacci sequence
 			Resultset.Add(2);
 
 			do
@@ -48,11 +48,11 @@ namespace ProjectEuler.Solutions
 				Fibonacci[0] = Fibonacci[1];
 				Fibonacci[1] = Fibonacci[2];
 			} while (Fibonacci[2] <= 4000000);
-			Console.WriteLine("The solution is {0}",Resultset.Sum());
+			Console.WriteLine("The solution is {0}", Resultset.Sum());
 			Console.ReadLine();
 
 		}
-		
+
 		//The prime factors of 13195 are 5, 7, 13 and 29.
 		/// <summary>
 		/// What is the largest prime factor of the number 600851475143 ?
@@ -62,7 +62,7 @@ namespace ProjectEuler.Solutions
 			Console.WriteLine("Problem 3: What is the largest prime factor of the number 600851475143 ?");
 			int i = 2;
 			long number = 600851475143L;
-			while (i !=number)
+			while (i != number)
 			{
 				if (number % i == 0) // test for prime factors i of number
 				{
@@ -70,7 +70,7 @@ namespace ProjectEuler.Solutions
 				}
 				i++;
 			}
-			Console.WriteLine("The result is {0}",number);
+			Console.WriteLine("The result is {0}", number);
 			Console.ReadLine();
 		}
 
@@ -84,7 +84,7 @@ namespace ProjectEuler.Solutions
 
 			char[] ToReverse;
 			int product;
-			string Reversed = string.Empty; 
+			string Reversed = string.Empty;
 			List<int> palindromes = new List<int>();
 
 			for (int i = 999; i > 0; i--)  //will iterate backwards from 999 and find product
@@ -94,15 +94,15 @@ namespace ProjectEuler.Solutions
 					product = i * j;
 					ToReverse = product.ToString().ToCharArray();
 					//Reversed = (new string(Array.Reverse(ToReverse)); //could use this to simplify
-					for (int z = ToReverse.Length - 1; z >-1; z--) //adds each character in array from last to first
+					for (int z = ToReverse.Length - 1; z > -1; z--) //adds each character in array from last to first
 					{
 						Reversed += ToReverse[z];
 					}
-					if (int.Parse(Reversed) == product){ palindromes.Add(product);}
+					if (int.Parse(Reversed) == product) { palindromes.Add(product); }
 					Reversed = string.Empty; // needed to reset the string for new reversal
 				}
 			}
-			Console.WriteLine("The largest palindrome is {0}, the smallest is {1} ",palindromes.Max(),palindromes.Min());
+			Console.WriteLine("The largest palindrome is {0}, the smallest is {1} ", palindromes.Max(), palindromes.Min());
 			Console.ReadLine();
 		}
 		/// <summary>
@@ -117,24 +117,24 @@ namespace ProjectEuler.Solutions
 
 			while (!found)
 			{
-					for (int i = 20; i > 1; i--)
+				for (int i = 20; i > 1; i--)
+				{
+					if (Results % i != 0) // is not a multiple of number
 					{
-						if (Results % i != 0) // is not a multiple of number
+						Results += 20; //increment results and break to try new number
+						break;
+					}
+					else
+					{
+						if (i == 2) //if reached this point then all numbers from 20 to 2 were factors.
 						{
-							Results+=20; //increment results and break to try new number
+							found = true;
 							break;
 						}
-						else
-						{
-							if (i == 2) //if reached this point then all numbers from 20 to 2 were factors.
-							{
-								found = true;
-								break;
-							}
 
-						}
 					}
-				
+				}
+
 			}
 			Console.WriteLine("The smallest multiple of all the numbers is {0}", Results);
 			Console.ReadLine();
@@ -145,54 +145,57 @@ namespace ProjectEuler.Solutions
 		/// </summary>
 		public void Problem6()
 		{
+			Console.WriteLine("Problem 6:Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum. ")
 			int sum = 0;
 			long sumsquare = 0L;
 			for (int i = 1; i < 101; i++)
 			{
 				sumsquare += (i * i);
 				sum += i;
-				
+
 			}
 			long result = (sum * sum) - sumsquare;
 			Console.WriteLine("The result is {0}", result);
 			Console.ReadLine();
 		}
 		/// <summary>
-		/// 
+		/// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+		///What is the 10 001st prime number?
 		/// </summary>
 		public void Problem7()
 		{
-			bool flag = false;
-			int number = 5;
-			int counter = 3;
-			int result = 0;
-			while(counter < 10002)
+			Console.WriteLine("Problem 7: By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13." +
+								"What is the 10 001st prime number?");
+			bool flag; //true when number prime
+			int[] result = new int[10001];
+			result[0] = 2; //initialise array with 2
+			int number = 3; // starting with the 1st odd number after 2
+			int counter = 1; //prime number 2 already counted as it is the only even prime
+
+			while (counter < 10001)
 			{
-				flag = false;
-				for (int i = 3; i < number; i+=2)
+				flag = true;
+				for (int i = 0; i < counter; i++)
 				{
-					if (number % i == 0||number % 2 == 0) { flag = true;continue; }
+					if (number % result[i] == 0) { flag = false; break; } // Number is prime if indivisible by any primes preceding it
 				}
 
-				if (flag == false)
-				{
-					result = number;
-					counter++;
-				}
+				if (flag){	result[counter++] = number;	}
 
 				number += 2;
 			}
-			Console.WriteLine("The result is {0}", result);
+			Console.WriteLine("The result is {0}", result[10000]);
 			Console.ReadLine();
 		}
 		/// <summary>
-		/// 
+		/// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
 		/// </summary>
 		public void Problem8()
 		{
+			Console.WriteLine("Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?");
 			int adjacent = 13;
 			int result = 0;
-			char[] numberarray = new char[1000];
+			string Result = string.Empty;
 			string number = "7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843" +
 							"8586156078911294949545950173795833195285320880551112540698747158523863050715693290963295227443043557" +
 							"6689664895044524452316173185640309871112172238311362229893423380308135336276614282806444486645238749" +
@@ -203,31 +206,33 @@ namespace ProjectEuler.Solutions
 							"1786645835912456652947654568284891288314260769004224219022671055626321111109370544217506941658960408" +
 							"0719840385096245544436298123098787992724428490918884580156166097919133875499200524063689912560717606" +
 							"0588611646710940507754100225698315520005593572972571636269561882670428252483600823257530420752963450";
-			
-			numberarray = number.ToCharArray();
-			for (int i = 0; i < numberarray.Length - (adjacent +1); i++)
+
+			for (int i = 0; i + adjacent <= number.Length; i++)
 			{
-				int product = int.Parse(numberarray[i].ToString());
-				for (int j = i+1; j < i + adjacent; j++)
+				int product = 1;
+				string productstring = string.Empty;
+				for (int j = i; j < i + adjacent; j++)
 				{
-					if (int.Parse(numberarray[i].ToString()) == 0||int.Parse(numberarray[j].ToString()) == 0)
+					if (int.Parse(number[i].ToString()) * int.Parse(number[j].ToString()) == 0)
 					{
 						product = 0;
 						break;
 					}
 					else
 					{
-						product *= int.Parse(numberarray[j].ToString());
+						product *= int.Parse(number[j].ToString());
+						productstring += number[j];
 					}
-					
+
 				}
-				if (product>result)
+				if (product > result)
 				{
 					result = product;
+					Result = productstring;
 				}
 			}
 
-			Console.WriteLine(result);
+			Console.WriteLine("The result string is {0} and the value of the product is {1}", Result, result);
 			Console.ReadLine();
 
 		}
