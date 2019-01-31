@@ -241,23 +241,21 @@ namespace ProjectEuler.Solutions
 		{
 			long product;
 			int sum = 1000;
-			int iterations = 0;
 			bool flag = false;
 			while (!flag)
 			{
 				for (int a = 1; a < sum; a++)
 				{
 					if (flag) { break; }
-
-					for (int b = a + 1; b < sum - a; b++, iterations++)
+					// since a<b<c then b must be less than c which is sum-a-b since a+b+c = sum
+					for (int b = a + 1; b < sum - a - b; b++)
 					{
 						int c = sum - a - b;
-						if ((c * c) == (a *a + b * b) && (a + b + c == sum))
+						if (c * c == a * a + b * b)
 						{
 							flag = true;
 							product = a * b * c;
 							Console.WriteLine("The Pythagorean triplets are {0}, {1}, {2}. The Product is {3}", a, b, c, product);
-							Console.WriteLine("Done in {0} iterations", iterations);
 							break;
 						}
 					}
