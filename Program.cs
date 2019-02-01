@@ -47,6 +47,9 @@ namespace ProjectEuler
 				case 9:
 					Problemset.Problem9();
 					break;
+				case 10:
+					Problemset.Problem10();
+					break;
 				default:
 					Console.WriteLine("This problem has not been solved yet");
 					Console.ReadLine();

@@ -263,5 +263,32 @@ namespace ProjectEuler.Solutions
 			}
 			Console.ReadKey();
 		}
+		/// <summary>
+		/// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17. Find the sum of all the primes below two million.
+		/// </summary>
+		public void Problem10()
+		{
+			int limit = 2000000;
+			bool flag; //true when number prime
+			List<int> result = new List<int>();
+			result.Add(2); //initialise list with 2
+			int number = 3; // starting with the 1st odd number after 2
+			long sum = 0; // doing list.sum() at end costs double the time
+				
+			while (number < limit)
+			{
+				flag = true;
+				foreach (int prime in result)
+				{
+					if (number % prime == 0) { flag = false; break; } // Number is prime if indivisible by any primes preceding it
+				}
+				
+				if (flag) { result.Add(number); sum += number; }
+				number += 2;
+			}
+			
+			Console.WriteLine("The sum of the primes below {0} is {1}", limit, sum);
+			Console.ReadKey();
+		}
 	}
 }
