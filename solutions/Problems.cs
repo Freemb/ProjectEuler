@@ -5,50 +5,27 @@ using System.Text;
 using System.Diagnostics;
 using System.Reflection;
 
+
 namespace ProjectEuler.Solutions
 {
 	public class Problems
 	{
-		private readonly int _problemnumber;
-        MethodInfo problem;
-
-        public MethodInfo this[int problemnumber]
+        
+        public string ProblemSelector (int problemnumber)
         {
-            get
-            {
-                //Assembly current = Assembly.GetExecutingAssembly();
-                //Type problemtype = current.GetType("ProjectEuler.Solutions.Problems");
-                problem = typeof(Problems).GetMethod("Problem" + problemnumber.ToString());
-                return problem;
-            }
-            
+                       
+            MethodInfo problem = typeof(Problems).GetTypeInfo().GetDeclaredMethod("Problem" + problemnumber.ToString());  
+            //return problem?.Invoke(this, null).ToString(); // create delegate instead
+            Func<string> selectproblem = (Func<string>) problem?.CreateDelegate(typeof(Func<string>), this);
+            if (selectproblem != null)
+            { return selectproblem(); }
+            else{ return "This problem has not been solved yet ... "; }
         }
 
-		public Problems()
-		{
-            Console.WriteLine("Enter the problem number you wish to solve");
-            
-            while (!int.TryParse(Console.ReadLine(), out _problemnumber))
-            {
-                Console.Clear();
-                Console.WriteLine("Please enter a valid problem number");
-                continue;
-            }
-            do
-            {
-                problem = this[_problemnumber];
-                Console.WriteLine(problem.Invoke(null, null));
-                Console.WriteLine("\nEnter a number if you wish to solve another problem or any letter to quit");
-            }
-            while (int.TryParse(Console.ReadLine(), out _problemnumber));
-            
-            
-           
-        }
         /// <summary>
         /// Find the sum of all the multiples of 3 or 5 below 1000.
         /// </summary>
-        public static string Problem1()
+        public  string Problem1()
 		{
 			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below 1000.");
 
@@ -67,7 +44,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 		/// </summary>
-		public static string Problem2()
+		public  string Problem2()
 		{
 			Console.WriteLine("Problem 2: By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
 
@@ -92,7 +69,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// What is the largest prime factor of the number 600851475143 ?
 		/// </summary>
-		public static string Problem3()
+		public  string Problem3()
 		{
 			Console.WriteLine("Problem 3: What is the largest prime factor of the number 600851475143 ?");
 			int i = 2;
@@ -112,7 +89,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		///Find the largest palindrome made from the product of two 3-digit numbers.
 		/// </summary>
-		public static string Problem4()
+		public  string Problem4()
 		{
 			Console.WriteLine("Problem 4: Find the largest palindrome made from the product of two 3-digit numbers.");
 
@@ -142,7 +119,7 @@ namespace ProjectEuler.Solutions
 		/// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 		/// </summary>
 
-		public static string Problem5()
+		public  string Problem5()
 		{
 			Console.WriteLine("What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20 ?");
 			long Results = 20; // inititialised to smallest number that is a multiple of the largest number in the set of numbers
@@ -175,7 +152,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 		/// </summary>
-		public static string Problem6()
+		public  string Problem6()
 		{
 			Console.WriteLine("Problem 6:Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum. ");
 			int sum = 0;
@@ -193,7 +170,7 @@ namespace ProjectEuler.Solutions
 		/// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 		///What is the 10 001st prime number?
 		/// </summary>
-		public static string Problem7()
+		public  string Problem7()
 		{
 			Console.WriteLine("Problem 7: By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13." +
 								"What is the 10 001st prime number?");
@@ -220,7 +197,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
 		/// </summary>
-		public static string Problem8()
+		public  string Problem8()
 		{
 			int adjacent = 13;
 			int result = 0;
@@ -272,7 +249,7 @@ namespace ProjectEuler.Solutions
 		///For example, 32 + 42 = 9 + 16 = 25 = 52.There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 		///Find the product abc.
 		/// </summary>
-		public static string Problem9()
+		public  string Problem9()
 		{
 			Console.WriteLine(" A Pythagorean triplet is a set of three natural numbers, a less than b less than c, for which a2 + b2 = c2.\n" +
 								"For example, 32 + 42 = 9 + 16 = 25 = 52.There exists exactly one Pythagorean triplet for which a + b + c = 1000.\n" +
@@ -298,7 +275,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17. Find the sum of all the primes below two million.
 		/// </summary>
-		public static string Problem10()
+		public  string Problem10()
 		{
 			int limit = 2000000;
 			bool flag; //true when number prime
@@ -325,7 +302,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// What is the largest product of 4 adjacent numbers in a 2 dimensional grid?
 		/// </summary>
-		public static string Problem11()
+		public  string Problem11()
 		{
 			char[] separators = new char[] { ' ', '\n' };
 			string maxsequence ="";
@@ -412,7 +389,7 @@ namespace ProjectEuler.Solutions
 
         /// The first ten terms would be: 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, .. What is the value of the first triangle number to have over five hundred divisors?
         /// </summary>
-        public static string Problem12()	 
+        public  string Problem12()	 
 		{
             int divisorcount = 2; // initialised at 2 since we don't test for factor 1 and the number itself.
             int nth = 1;
