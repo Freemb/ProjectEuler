@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using ProjectEuler.Solutions;
 
 namespace ProjectEuler
@@ -22,7 +21,6 @@ namespace ProjectEuler
             do
             {
                 string result = Problemset.ProblemSelector(_problemnumber);
-                Console.WriteLine($"Solution {_problemnumber} \n{result}");
                 Console.WriteLine("\nEnter a number if you wish to solve another problem or any letter to quit");
             }
             while (int.TryParse(Console.ReadLine(), out _problemnumber));
