@@ -11,10 +11,10 @@ namespace ProjectEuler.Solutions
 	public class Problems
 	{
         
-        public string ProblemSelector (int problemnumber)
+        public string ProblemSelector (int problemNumber)
         {
                        
-            MethodInfo problem = typeof(Problems).GetTypeInfo().GetDeclaredMethod("Problem" + problemnumber.ToString());  
+            MethodInfo problem = typeof(Problems).GetTypeInfo().GetDeclaredMethod("Problem" + problemNumber.ToString());  
             //return problem?.Invoke(this, null).ToString(); // create delegate instead
             Func<string> selectproblem = (Func<string>) problem?.CreateDelegate(typeof(Func<string>), this);
             if (selectproblem != null)
@@ -25,12 +25,17 @@ namespace ProjectEuler.Solutions
         /// <summary>
         /// Find the sum of all the multiples of 3 or 5 below 1000.
         /// </summary>
-        public  string Problem1()
+        public string Problem1()
 		{
-			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below 1000.");
-
+			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below Limit. \nPlease enter a positive integer Limit.");
+            int limit = 0;
+            while (!int.TryParse(Console.ReadLine(), out limit) || limit < 0)
+            {
+               Console.WriteLine($"Not a valid integer limit, Please enter a positive integer less than {int.MaxValue}");
+            }
+            
 			List<int> Results = new List<int>(); // list for all the multiples
-			for (int i = 0; i < 1000; i++)
+			for (int i = 0; i < limit; i++)
 			{
 				if (i % 3 == 0 || i % 5 == 0)
 				{
@@ -48,21 +53,20 @@ namespace ProjectEuler.Solutions
 		{
 			Console.WriteLine("Problem 2: By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
 
-			List<int> Resultset = new List<int>(); // list to store even fibonacci numbers
+			long ResultSum = 2; // initialise sum to 2, first of the fibonacci numbers
 			int[] Fibonacci = new int[3] { 1, 2, 0 }; // array that holds 3 consecutive values of the fibonacci sequence
-			Resultset.Add(2);
-
+			
 			do
 			{
 				Fibonacci[2] = Fibonacci[0] + Fibonacci[1];
 				if (Fibonacci[2] % 2 == 0)
 				{
-					Resultset.Add(Fibonacci[2]);
+					ResultSum += Fibonacci[2];
 				}
 				Fibonacci[0] = Fibonacci[1];
 				Fibonacci[1] = Fibonacci[2];
 			} while (Fibonacci[2] <= 4000000);
-			return $"The solution is {Resultset.Sum()}";
+			return $"The solution is {ResultSum.ToString()}";
 		}
 
 		//The prime factors of 13195 are 5, 7, 13 and 29.
@@ -188,8 +192,11 @@ namespace ProjectEuler.Solutions
 					if (number % result[i] == 0) { flag = false; break; } // Number is prime if indivisible by any primes preceding it
 				}
 
-				if (flag){	result[counter++] = number;	}
-
+                if (flag)
+                {
+                    result[counter] = number;
+                    counter++;
+                }
 				number += 2;
 			}
 			return $"The result is {result[10000]}";
