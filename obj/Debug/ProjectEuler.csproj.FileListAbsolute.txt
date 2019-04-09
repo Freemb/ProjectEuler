@@ -1,7 +1,0 @@
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\bin\Debug\ProjectEuler.exe.config
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\bin\Debug\ProjectEuler.exe
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\bin\Debug\ProjectEuler.pdb
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\obj\Debug\ProjectEuler.csprojAssemblyReference.cache
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\obj\Debug\ProjectEuler.csproj.CoreCompileInputs.cache
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\obj\Debug\ProjectEuler.exe
-C:\Users\everr\Documents\Visual Studio 2017\Projects\ProjectEuler\obj\Debug\ProjectEuler.pdb
