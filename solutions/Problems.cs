@@ -3,76 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using System.Reflection;
+
 
 namespace ProjectEuler.Solutions
 {
 	public class Problems
 	{
-		private int number;
-		public Problems()
-		{
-			Console.WriteLine("Enter the problem number you wish to solve");
-			while (!int.TryParse(Console.ReadLine(), out number))
-			{
-				Console.Clear();
-				Console.WriteLine("Please enter a valid problem number");
-				continue;
-			}
-		Selectproblem:
-			switch (number)
-			{
-				case 1:
-					Console.WriteLine(Problem1());
-					break;
-				case 2:
-					Console.WriteLine(Problem2());
-					break;
-				case 3:
-					Console.WriteLine(Problem3());
-					break;
-				case 4:
-					Console.WriteLine(Problem4());
-					break;
-				case 5:
-					Console.WriteLine(Problem5());
-					break;
-				case 6:
-					Console.WriteLine(Problem6());
-					break;
-				case 7:
-					Console.WriteLine(Problem7());
-					break;
-				case 8:
-					Console.WriteLine(Problem8());
-					break;
-				case 9:
-					Console.WriteLine(Problem9());
-					break;
-				case 10:
-					Console.WriteLine(Problem10());
-					break;
-				case 11:
-					Console.WriteLine(Problem11());
-					break;
-				case 12:
-					Console.WriteLine(Problem12());
-					break;
-				default:
-					Console.WriteLine("This problem has not been solved yet");
-					break;
-			}
-			Console.WriteLine("\nEnter a number if you wish to solve another problem or any letter to quit");
-			if (int.TryParse(Console.ReadLine(), out number)) { goto Selectproblem; };
-		}
-		/// <summary>
-		/// Find the sum of all the multiples of 3 or 5 below 1000.
-		/// </summary>
-		private string Problem1()
-		{
-			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below 1000.");
+        
+        public string ProblemSelector (int problemNumber)
+        {
+                       
+            MethodInfo problem = typeof(Problems).GetTypeInfo().GetDeclaredMethod("Problem" + problemNumber.ToString());  
+            //return problem?.Invoke(this, null).ToString(); // create delegate instead
+            Func<string> selectproblem = (Func<string>) problem?.CreateDelegate(typeof(Func<string>), this);
+            if (selectproblem != null)
+            { return selectproblem(); }
+            else{ return "This problem has not been solved yet ... "; }
+        }
 
+        /// <summary>
+        /// Find the sum of all the multiples of 3 or 5 below 1000.
+        /// </summary>
+        public string Problem1()
+		{
+			Console.WriteLine("Problem 1: Find the sum of all the multiples of 3 or 5 below Limit. \nPlease enter a positive integer Limit.");
+            int limit = 0;
+            while (!int.TryParse(Console.ReadLine(), out limit) || limit < 0)
+            {
+               Console.WriteLine($"Not a valid integer limit, Please enter a positive integer less than {int.MaxValue}");
+            }
+            
 			List<int> Results = new List<int>(); // list for all the multiples
-			for (int i = 0; i < 1000; i++)
+			for (int i = 0; i < limit; i++)
 			{
 				if (i % 3 == 0 || i % 5 == 0)
 				{
@@ -86,32 +49,31 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
 		/// </summary>
-		private string Problem2()
+		public  string Problem2()
 		{
 			Console.WriteLine("Problem 2: By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.");
 
-			List<int> Resultset = new List<int>(); // list to store even fibonacci numbers
+			long ResultSum = 2; // initialise sum to 2, first of the fibonacci numbers
 			int[] Fibonacci = new int[3] { 1, 2, 0 }; // array that holds 3 consecutive values of the fibonacci sequence
-			Resultset.Add(2);
-
+			
 			do
 			{
 				Fibonacci[2] = Fibonacci[0] + Fibonacci[1];
 				if (Fibonacci[2] % 2 == 0)
 				{
-					Resultset.Add(Fibonacci[2]);
+					ResultSum += Fibonacci[2];
 				}
 				Fibonacci[0] = Fibonacci[1];
 				Fibonacci[1] = Fibonacci[2];
 			} while (Fibonacci[2] <= 4000000);
-			return $"The solution is {Resultset.Sum()}";
+			return $"The solution is {ResultSum.ToString()}";
 		}
 
 		//The prime factors of 13195 are 5, 7, 13 and 29.
 		/// <summary>
 		/// What is the largest prime factor of the number 600851475143 ?
 		/// </summary>
-		private string Problem3()
+		public  string Problem3()
 		{
 			Console.WriteLine("Problem 3: What is the largest prime factor of the number 600851475143 ?");
 			int i = 2;
@@ -131,13 +93,13 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		///Find the largest palindrome made from the product of two 3-digit numbers.
 		/// </summary>
-		private string Problem4()
+		public  string Problem4()
 		{
 			Console.WriteLine("Problem 4: Find the largest palindrome made from the product of two 3-digit numbers.");
 
 			char[] ToReverse;
 			int product;
-			string Reversed = string.Empty;
+			StringBuilder Reversed = new StringBuilder(); //use stringbuilder instead of string to save memory
 			List<int> palindromes = new List<int>();
 
 			for (int i = 999; i > 0; i--)  //will iterate backwards from 999 and find product
@@ -149,10 +111,10 @@ namespace ProjectEuler.Solutions
 					//Reversed = new string(Array.Reverse(ToReverse); //could use this to simplify
 					for (int z = ToReverse.Length - 1; z > -1; z--) //adds each character in array from last to first
 					{
-						Reversed += ToReverse[z];
+						Reversed.Append(ToReverse[z]);
 					}
-					if (int.Parse(Reversed) == product) { palindromes.Add(product); }
-					Reversed = string.Empty; // needed to reset the string for new reversal
+					if (int.Parse(Reversed.ToString()) == product) { palindromes.Add(product); }
+					Reversed.Clear(); // needed to reset the string for new reversal
 				}
 			}
 			return $"The largest palindrome is {palindromes.Max()}";
@@ -161,7 +123,7 @@ namespace ProjectEuler.Solutions
 		/// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 		/// </summary>
 
-		private string Problem5()
+		public  string Problem5()
 		{
 			Console.WriteLine("What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20 ?");
 			long Results = 20; // inititialised to smallest number that is a multiple of the largest number in the set of numbers
@@ -194,7 +156,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 		/// </summary>
-		private string Problem6()
+		public  string Problem6()
 		{
 			Console.WriteLine("Problem 6:Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum. ");
 			int sum = 0;
@@ -212,7 +174,7 @@ namespace ProjectEuler.Solutions
 		/// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
 		///What is the 10 001st prime number?
 		/// </summary>
-		private string Problem7()
+		public  string Problem7()
 		{
 			Console.WriteLine("Problem 7: By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13." +
 								"What is the 10 001st prime number?");
@@ -230,8 +192,11 @@ namespace ProjectEuler.Solutions
 					if (number % result[i] == 0) { flag = false; break; } // Number is prime if indivisible by any primes preceding it
 				}
 
-				if (flag){	result[counter++] = number;	}
-
+                if (flag)
+                {
+                    result[counter] = number;
+                    counter++;
+                }
 				number += 2;
 			}
 			return $"The result is {result[10000]}";
@@ -239,11 +204,12 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// Find the thirteen adjacent digits in the 1000-digit number that have the greatest product. What is the value of this product?
 		/// </summary>
-		private string Problem8()
+		public  string Problem8()
 		{
 			int adjacent = 13;
 			int result = 0;
-			string Result = string.Empty;
+			StringBuilder Result = new StringBuilder();
+			StringBuilder productstring = new StringBuilder();
 			string number = "7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843" +
 							"8586156078911294949545950173795833195285320880551112540698747158523863050715693290963295227443043557" +
 							"6689664895044524452316173185640309871112172238311362229893423380308135336276614282806444486645238749" +
@@ -260,7 +226,7 @@ namespace ProjectEuler.Solutions
 			for (int i = 0; i + adjacent <= number.Length; i++)
 			{
 				int product = 1;
-				string productstring = string.Empty;
+				productstring.Clear();
 				for (int j = i; j < i + adjacent; j++)
 				{
 					if (int.Parse(number[i].ToString()) * int.Parse(number[j].ToString()) == 0)
@@ -271,25 +237,26 @@ namespace ProjectEuler.Solutions
 					else
 					{
 						product *= int.Parse(number[j].ToString());
-						productstring += number[j];
+						productstring.Append(number[j]);
 					}
 
 				}
 				if (product > result)
 				{
 					result = product;
-					Result = productstring;
+					Result.Clear();
+					Result.Append(productstring.ToString());
 				}
 			}
 
-			return $"The result string is {Result} and the value of the product is {result}";
+			return $"The result string is {Result.ToString()} and the value of the product is {result}";
 		}
 		/// <summary>
 		/// A Pythagorean triplet is a set of three natural numbers, a less than b less than c, for which a2 + b2 = c2.
 		///For example, 32 + 42 = 9 + 16 = 25 = 52.There exists exactly one Pythagorean triplet for which a + b + c = 1000.
 		///Find the product abc.
 		/// </summary>
-		private string Problem9()
+		public  string Problem9()
 		{
 			Console.WriteLine(" A Pythagorean triplet is a set of three natural numbers, a less than b less than c, for which a2 + b2 = c2.\n" +
 								"For example, 32 + 42 = 9 + 16 = 25 = 52.There exists exactly one Pythagorean triplet for which a + b + c = 1000.\n" +
@@ -315,7 +282,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17. Find the sum of all the primes below two million.
 		/// </summary>
-		private string Problem10()
+		public  string Problem10()
 		{
 			int limit = 2000000;
 			bool flag; //true when number prime
@@ -342,7 +309,7 @@ namespace ProjectEuler.Solutions
 		/// <summary>
 		/// What is the largest product of 4 adjacent numbers in a 2 dimensional grid?
 		/// </summary>
-		private string Problem11()
+		public  string Problem11()
 		{
 			char[] separators = new char[] { ' ', '\n' };
 			string maxsequence ="";
@@ -376,7 +343,7 @@ namespace ProjectEuler.Solutions
 			{
 				intgrid[i / 20, i % 20] = int.Parse(stringgrid[i]); //remainder gives column number
 			}
-			//only 1 direction for each needs to be condisdered as there will be an equivalent in the other direction
+			//only 1 direction for each needs to be considered as there will be an equivalent in the other direction
 			for (int i = 0; i < 20; i++) 
 			{
 				for (int j = 0; j < 20; j++)
@@ -422,11 +389,38 @@ namespace ProjectEuler.Solutions
 				
 			}
 			return $"The largest sequence is {maxsequence}, its product is {maxProduct}";
-		}
+        }
 
-		public string Problem12()	 
+        /// <summary>
+        /// The sequence of triangle numbers is generated by adding the natural numbers. So the 7th triangle number would be 1 + 2 + 3 + 4 + 5 + 6 + 7 = 28. 
+
+        /// The first ten terms would be: 1, 3, 6, 10, 15, 21, 28, 36, 45, 55, .. What is the value of the first triangle number to have over five hundred divisors?
+        /// </summary>
+        public  string Problem12()	 
 		{
-			return "";
+            int divisorcount = 2; // initialised at 2 since we don't test for factor 1 and the number itself.
+            int nth = 1;
+            int Tnumber = 0;
+            Stopwatch timer = new Stopwatch();
+            timer.Start();
+            while (divisorcount <= 501)
+            {
+                //reset variables, need to include the number itself as a factor since only testing up to sqrt num
+                divisorcount = 2;
+                if (nth == 1){divisorcount = 1;}
+                Tnumber += nth; // 1st number is 0+1, 2nd number is 0+1+2,nth number is  0+1+....+nth
+
+                for (int i = 2; i <= Math.Sqrt(Tnumber); i++) // each prime factor has a complementary unique factor, no prime factor of num is > sqrt(num)
+                {
+                    if (Tnumber % i == 0)
+                    {
+                        divisorcount += 2; // add the divisor and its complement (num/divisor)
+                    }
+                }
+                nth++;
+            }
+            timer.Stop();
+			return $"The first triangle number with over {divisorcount} divisors is {Tnumber} the {nth} th Triangle Number" + $"Elapsed time {timer.ElapsedMilliseconds}" ;
 		}
 
 
